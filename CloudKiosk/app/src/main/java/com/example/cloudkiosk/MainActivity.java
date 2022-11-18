@@ -1,7 +1,5 @@
 package com.example.cloudkiosk;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
@@ -10,7 +8,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -19,13 +19,22 @@ import android.widget.Chronometer;
 import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,6 +49,13 @@ public class MainActivity extends AppCompatActivity {
     // 장바구니 리스트뷰
     private ListView listView;
     List<String> data = new ArrayList<>();
+
+    // 서버
+    private final String TAG = "MainActivityLog";
+    private final String URL = "http://3.35.50.87:3000/";
+    private Retrofit retrofit;
+    private CRUD service;
+    private Button btn_upload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,18 +83,60 @@ public class MainActivity extends AppCompatActivity {
         // 팝업
         txtResult = (TextView) findViewById(R.id.txtResult);
 
-        // 장바구니
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.commit();
-//        gridLayout = findViewById(R.id.gridlayout);
+        // 장바구니 프래그먼트
+        // gridLayout = findViewById(R.id.gridlayout);
 
         // 크로노미터
         final Chronometer chronometer = (Chronometer) findViewById(R.id.chronometer);
         chronometer.start();
 
+        // firstInit
+        firstInit();
+        //btn_upload.setOnClickListener((View.OnClickListener) this);
 
     }
+
+    public void firstInit() {
+        // 결제하기 버튼
+        btn_upload = (Button) findViewById(R.id.button4);
+        btn_upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Call<ResponseBody> call_post = service.postFunc("post data");
+                call_post.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            try {
+                                String result = response.body().string();
+                                Log.v(TAG, "result = " + result);
+                                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            Log.v(TAG, "error = " + String.valueOf(response.code()));
+                            Toast.makeText(getApplicationContext(), "error = " + String.valueOf(response.code()), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        Log.v(TAG, "Fail");
+                        Toast.makeText(getApplicationContext(), "Response Fail", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+        });
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        service = retrofit.create(CRUD.class);
+    }
+
 
     // 메뉴 클릭시 팝업
     public void mOnPopupClick(View v){
@@ -135,5 +193,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
 
 }
