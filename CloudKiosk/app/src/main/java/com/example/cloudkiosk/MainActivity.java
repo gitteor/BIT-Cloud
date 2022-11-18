@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Debug;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -57,6 +58,14 @@ public class MainActivity extends AppCompatActivity {
     private CRUD service;
     private Button btn_upload;
 
+    // 크로노미터
+    Chronometer chronometer;
+    String laptime;
+    TextView lap1;
+    TextView lap2;
+    TextView lap3;
+    int lapcount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         // gridLayout = findViewById(R.id.gridlayout);
 
         // 크로노미터
-        final Chronometer chronometer = (Chronometer) findViewById(R.id.chronometer);
+        chronometer = (Chronometer) findViewById(R.id.chronometer);
         chronometer.start();
 
         // firstInit
@@ -102,7 +111,10 @@ public class MainActivity extends AppCompatActivity {
         btn_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Call<ResponseBody> call_post = service.postFunc("post data");
+
+                chronometer.stop();
+                // 총 경과시간 전송
+                Call<ResponseBody> call_post = service.postFunc(laptime);
                 call_post.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -167,6 +179,19 @@ public class MainActivity extends AppCompatActivity {
                 text = "샐러드";
                 price = price + 2000;
                 break;
+            case R.id.cardview7:
+                text = "콜라";
+                price = price + 1200;
+                break;
+            case R.id.cardview8:
+                text = "사이다";
+                price = price + 1200;
+                break;
+            case R.id.cardview9:
+                text = "아메리카노";
+                price = price + 1500;
+                break;
+
         }
         //데이터 담아 팝업액티비티 호출
         Intent intent = new Intent(this, PopupActivity.class);
@@ -187,9 +212,35 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                //데이터 받기
+                // 메뉴 추가
                 String result = data.getStringExtra("result");
                 txtResult.setText(result);
+
+                chronometer.stop();
+                laptime = chronometer.getText().toString();
+                lap1 = (TextView) findViewById(R.id.lap1);
+                lap2 = (TextView) findViewById(R.id.lap2);
+                lap3 = (TextView) findViewById(R.id.lap3);
+                switch (lapcount)
+                {
+                    case 0:
+                        lap1.setText(laptime);
+                        chronometer.start();
+                        lapcount = lapcount + 1;
+                        break;
+                    case 1:
+                        lap2.setText(laptime);
+                        chronometer.start();
+                        lapcount = lapcount + 1;
+                        break;
+                    case 2:
+                        lap3.setText(laptime);
+                        chronometer.start();
+                        lapcount = lapcount + 1;
+                        break;
+
+                }
+
             }
         }
     }
