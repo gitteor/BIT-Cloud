@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="116dp"
+        android:src="@drawable/imageview"
+        android:background="#4C1A03"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints" />
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:textColor="#AEA08D"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"/>
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/image"
+        app:layout_constraintBottom_toTopOf="@+id/viewpager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="햄버거" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="사이드" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="음료/디저트" />
+    </com.google.android.material.tabs.TabLayout>
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="354dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+        tools:ignore="MissingConstraints" >
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.viewpager.widget.ViewPager>
+
+
+    <View
+        android:id="@+id/cutline"
+        android:layout_width="match_parent"
+        android:layout_height="3px"
+        android:background="#4C1A03"
+        app:layout_constraintTop_toBottomOf="@+id/viewpager"
+        tools:ignore="MissingConstraints" />
+    <LinearLayout
+        android:id="@+id/shoppingcart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/cutline"
+        android:orientation="horizontal">
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="150dp"
+            android:layout_height="144dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtResult" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/viewpager"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="72dp"
+                android:text="총 주문금액"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:textColor="#111111"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:id="@+id/txtResult"
+                android:layout_width="fill_parent"
+                android:layout_height="72dp"
+                android:gravity="center"
+                android:text="0 원"
+                android:textSize="20dp"
+                android:textColor="#812E07"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewpager"
+                tools:ignore="MissingConstraints" />
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:id="@+id/cutline2"
+        android:layout_width="match_parent"
+        android:layout_height="3px"
+        android:background="#4C1A03"
+        app:layout_constraintTop_toBottomOf="@+id/shoppingcart"
+        tools:ignore="MissingConstraints" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/cutline2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" >
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:text="취소"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textColor="#EAD7BB"
+            android:layout_margin="10dp"/>
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:text="결제하기"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textColor="#EAD7BB"
+            android:layout_margin="10dp"/>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
