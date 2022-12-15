@@ -9,7 +9,8 @@
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/start"
+        android:adjustViewBounds="true"
+        android:background="@drawable/start"
         android:gravity="center" />
     <TextView
         android:layout_width="match_parent"
@@ -19,13 +20,13 @@
         android:textSize="35dp"
         android:textColor="#EAD7BB"
         android:gravity="center"
-        android:paddingBottom="200dp"/>
+        android:paddingBottom="130dp"/>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        android:paddingBottom="20dp">
+        android:paddingBottom="0dp">
 
         <LinearLayout
             android:id="@+id/buttons"
@@ -34,7 +35,7 @@
             android:layout_gravity="bottom|center_horizontal"
             android:orientation="vertical"
             android:layout_margin="30dp"
-            android:paddingBottom="20dp"
+            android:paddingBottom="0dp"
             tools:ignore="UselessParent">
 
             <Button

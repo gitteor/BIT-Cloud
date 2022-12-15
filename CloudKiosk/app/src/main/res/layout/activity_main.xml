@@ -10,18 +10,19 @@
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
-        android:layout_height="116dp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
         android:src="@drawable/imageview"
-        android:background="#4C1A03"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/tabLayout"
+        app:layout_constraintBottom_toTopOf="@id/tabLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -103,10 +104,14 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/image"
+        app:tabMaxWidth="0dp"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        app:layout_constraintTop_toBottomOf="@+id/image"
         app:layout_constraintBottom_toTopOf="@+id/viewpager"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:tabTextAppearance="@style/tab_text"
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.tabs.TabItem
@@ -122,14 +127,14 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="음료/디저트" />
+            android:text="음료" />
     </com.google.android.material.tabs.TabLayout>
 
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="354dp"
+        android:layout_height="310dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout"
@@ -156,8 +161,8 @@
 
         <ListView
             android:id="@+id/list"
-            android:layout_width="150dp"
-            android:layout_height="144dp"
+            android:layout_width="190dp"
+            android:layout_height="140dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtResult" />
@@ -168,7 +173,7 @@
             android:orientation="vertical">
             <TextView
                 android:layout_width="fill_parent"
-                android:layout_height="72dp"
+                android:layout_height="70dp"
                 android:text="총 주문금액"
                 android:gravity="center"
                 android:textSize="20dp"
@@ -178,7 +183,7 @@
             <TextView
                 android:id="@+id/txtResult"
                 android:layout_width="fill_parent"
-                android:layout_height="72dp"
+                android:layout_height="70dp"
                 android:gravity="center"
                 android:text="0 원"
                 android:textSize="20dp"
@@ -200,7 +205,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
+        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@+id/cutline2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

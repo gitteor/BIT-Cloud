@@ -60,10 +60,11 @@ public class MainActivity extends AppCompatActivity {
 
     // 크로노미터
     Chronometer chronometer;
+
     String laptime;
-    TextView lap1;
-    TextView lap2;
-    TextView lap3;
+    String tot_time, time1, time2, time3 = "00:00";
+    String menu1, menu2, menu3 = "";
+    TextView lap1, lap2, lap3;
     int lapcount = 0;
 
     @Override
@@ -113,8 +114,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 chronometer.stop();
+                tot_time = chronometer.getText().toString();
                 // 총 경과시간 전송
-                Call<ResponseBody> call_post = service.postFunc(laptime);
+                Call<ResponseBody> call_post = service.postFunc(tot_time + time1 + time2 + time3 + menu1 + menu2 + menu3);
                 call_post.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -157,38 +159,47 @@ public class MainActivity extends AppCompatActivity {
         switch (v.getId()){
             case R.id.cardview1:
                 text = "비프버거";
+                menu1 = "BIF";
                 price = price + 4000;
                 break;
             case R.id.cardview2:
                 text = "불고기버거";
+                menu1 = "BUL";
                 price = price + 3500;
                 break;
             case R.id.cardview3:
                 text = "치즈버거";
+                menu1 = "CHE";
                 price = price + 2500;
                 break;
             case R.id.cardview4:
                 text = "프렌치프라이";
+                menu2 = "FRE";
                 price = price + 1500;
                 break;
             case R.id.cardview5:
                 text = "치킨너겟";
+                menu2 = "CHI";
                 price = price + 2000;
                 break;
             case R.id.cardview6:
                 text = "샐러드";
+                menu2 = "SAL";
                 price = price + 2000;
                 break;
             case R.id.cardview7:
                 text = "콜라";
+                menu3 = "COK";
                 price = price + 1200;
                 break;
             case R.id.cardview8:
                 text = "사이다";
+                menu3 = "CID";
                 price = price + 1200;
                 break;
             case R.id.cardview9:
                 text = "아메리카노";
+                menu3 = "AME";
                 price = price + 1500;
                 break;
 
@@ -225,16 +236,19 @@ public class MainActivity extends AppCompatActivity {
                 {
                     case 0:
                         lap1.setText(laptime);
+                        time1 = laptime;
                         chronometer.start();
                         lapcount = lapcount + 1;
                         break;
                     case 1:
                         lap2.setText(laptime);
+                        time2 = laptime;
                         chronometer.start();
                         lapcount = lapcount + 1;
                         break;
                     case 2:
                         lap3.setText(laptime);
+                        time3 = laptime;
                         chronometer.start();
                         lapcount = lapcount + 1;
                         break;
